@@ -1,0 +1,42 @@
+{
+  "name": "@translator-agent/core",
+  "version": "0.1.0",
+  "description": "Core translation functionality for Translator Agent",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "translation",
+    "ai",
+    "openai",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@ai-sdk/openai": "^1.3.22",
+    "ai": "^4.3.16",
+    "axios": "^1.7.7",
+    "turndown": "^7.2.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/turndown": "^5.0.5",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}

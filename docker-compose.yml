@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0.42
+    container_name: translator-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: zxc6545398
+      MYSQL_DATABASE: translator_agent
+      MYSQL_USER: remote
+      MYSQL_PASSWORD: zxc6545398
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - translator-network
+    restart: unless-stopped
+
+  # Redis缓存
+  redis:
+    image: redis:8.0.2-alpine
+    container_name: translator-redis
+    command: redis-server --requirepass "n(,fkR6X]o6E"
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - translator-network
+    restart: unless-stopped
+
+  # API服务器
+  api:
+    build: 
+      context: ./api-server
+      dockerfile: Dockerfile
+    container_name: translator-api
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: remote
+      DB_PASSWORD: zxc6545398
+      DB_NAME: translator_agent
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: "n(,fkR6X]o6E"
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your-super-secret-refresh-key}
+      JWT_EXPIRES_IN: 24h
+      JWT_REFRESH_EXPIRES_IN: 7d
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      MODEL_NAME: ${MODEL_NAME:-doubao-seed-1-6-250615}
+      ZPAY_API_URL: ${ZPAY_API_URL:-https://z-pay.cn/api}
+      ZPAY_MERCHANT_ID: ${ZPAY_MERCHANT_ID}
+      ZPAY_SECRET_KEY: ${ZPAY_SECRET_KEY}
+      ZPAY_WEBHOOK_SECRET: ${ZPAY_WEBHOOK_SECRET}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:3001}
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "3001:3001"
+    networks:
+      - translator-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Web前端
+  web:
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile
+    container_name: translator-web
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
+    networks:
+      - translator-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  translator-network:
+    driver: bridge

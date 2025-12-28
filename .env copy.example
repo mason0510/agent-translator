@@ -1,0 +1,23 @@
+# 环境变量配置文件
+# 复制此文件为 .env 并填入真实的配置值
+
+# JWT密钥（生产环境必须更改）
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+JWT_REFRESH_SECRET=your-super-secret-refresh-key-change-in-production
+
+# OpenAI API配置
+OPENAI_API_KEY=your-openai-api-key
+OPENAI_BASE_URL=https://api.openai.com/v1
+MODEL_NAME=doubao-seed-1-6-250615
+
+# Z-Pay支付配置
+ZPAY_API_URL=https://z-pay.cn/api
+ZPAY_MERCHANT_ID=your-zpay-merchant-id
+ZPAY_SECRET_KEY=your-zpay-secret-key
+ZPAY_WEBHOOK_SECRET=your-zpay-webhook-secret
+
+# 允许的跨域来源
+ALLOWED_ORIGINS=http://localhost:3000,https://translator.aihang365.com
+
+# API基础URL
+API_BASE_URL=https://translator-api.aihang365.com

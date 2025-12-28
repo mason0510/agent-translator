@@ -1,60 +1,274 @@
 # Translator Agent
 
-An AI-powered intelligent translation CLI tool with an interactive chat interface.
+智能翻译助手 - 支持文本、文件、网页翻译，提供CLI和Web两种使用方式，集成会员付费系统。
 
-## Version
+## 🌟 功能特性
 
-Current version: **0.1.0**
+### 核心翻译功能
+- 📝 **文本翻译** - 支持多种语言的文本翻译
+- 📄 **文件翻译** - 支持 .txt, .md, .html, .docx 等格式
+- 🌐 **网页翻译** - 自动抓取网页内容并翻译
+- 🤖 **AI智能翻译** - 基于先进的AI模型，提供高质量翻译
 
-## Features
+### 使用方式
+- 💻 **CLI工具** - 命令行界面，适合开发者使用
+- 🖥️ **Web界面** - 现代化的Vue 3 + Element Plus界面
+- 📱 **响应式设计** - 完美支持桌面和移动设备
 
-- 🌍 **Interactive Chat Interface**: Beautiful terminal UI built with React + Ink
-- 💬 **Message History**: View all your messages with timestamps
-- 🎯 **Simple Commands**: Type 'exit' or 'quit' to leave
-- 🔧 **Modern Stack**: Built with TypeScript and ESM modules
+### 会员系统
+- 💳 **多种套餐** - 基础版、专业版、企业版
+- 💰 **支付集成** - 支持Z-Pay、支付宝、微信支付
+- 📊 **使用统计** - 详细的翻译额度和使用记录
+- 👑 **会员特权** - 更高额度、优先支持、高级功能
 
-## Requirements
+## 🏗️ 技术架构
 
-- Node.js v20 or higher
+### 前端技术栈
+- **Vue 3.5.12** - 渐进式JavaScript框架
+- **TypeScript 5.3.3** - 类型安全的JavaScript
+- **Element Plus 2.8.4** - 企业级UI组件库
+- **Pinia 2.1.7** - Vue状态管理
+- **Vue Router** - 单页应用路由
+- **Vue I18n** - 国际化支持
+- **Vite** - 现代化构建工具
 
-## Installation
+### 后端技术栈
+- **Node.js 20+** - JavaScript运行时
+- **Express** - Web应用框架
+- **TypeScript** - 类型安全开发
+- **MySQL 8.0** - 关系型数据库
+- **Redis** - 缓存和会话存储
+- **JWT** - 身份认证
+- **bcryptjs** - 密码加密
 
-```bash
-npm install
+### AI与工具
+- **AI SDK** - OpenAI API集成
+- **翻译核心SDK** - 抽象的翻译服务
+- **文件处理工具** - 支持多种文件格式
+- **网页抓取工具** - HTML到Markdown转换
+
+### 部署与运维
+- **Docker** - 容器化部署
+- **nginx-proxy** - 反向代理和SSL
+- **Let's Encrypt** - 免费SSL证书
+- **Cloudflare** - CDN和域名管理
+
+## 📁 项目结构
+
+```
+translator-agent/
+├── src/                           # 原始CLI项目
+├── web-app/                       # Vue 3前端应用
+│   ├── src/
+│   │   ├── components/           # 公共组件
+│   │   ├── views/               # 页面组件
+│   │   ├── stores/              # Pinia状态管理
+│   │   ├── utils/               # 工具函数
+│   │   └── types/               # TypeScript类型
+├── api-server/                    # Express后端API
+│   ├── src/
+│   │   ├── routes/              # API路由
+│   │   ├── middleware/          # 中间件
+│   │   ├── services/            # 业务服务
+│   │   ├── database/            # 数据库相关
+│   │   └── types/               # TypeScript类型
+├── packages/
+│   └── translator-core/          # 翻译核心SDK
+├── docs/                         # 项目文档
+├── docker-compose.yml            # 开发环境
+├── docker-compose.prod.yml       # 生产环境
+├── deploy.sh                     # 部署脚本
+└── dev.sh                       # 开发启动脚本
 ```
 
-## Usage
+## 🚀 快速开始
 
-### Development Mode
+### 环境要求
+- Node.js 20+
+- Docker & Docker Compose
+- MySQL 8.0
+- Redis
+
+### 开发环境部署
+
+1. **克隆项目**
 ```bash
+git clone <repository-url>
+cd translator-agent
+```
+
+2. **配置环境变量**
+```bash
+cp .env.example .env
+# 编辑 .env 文件，填入必要的配置
+```
+
+3. **启动开发环境**
+```bash
+./dev.sh
+```
+
+这将启动：
+- MySQL数据库 (端口3306)
+- Redis缓存 (端口6379)
+- API服务器 (端口3001)
+- Web前端 (端口3000)
+
+4. **访问应用**
+- 前端: http://localhost:3000
+- API: http://localhost:3001
+- 健康检查: http://localhost:3001/health
+
+### 生产环境部署
+
+1. **配置生产环境变量**
+```bash
+cp .env.example .env
+# 填入生产环境的配置
+```
+
+2. **运行部署脚本**
+```bash
+./deploy.sh
+```
+
+部署完成后访问：
+- Web: https://translator.aihang365.com
+- API: https://translator-api.aihang365.com
+
+### CLI使用方式
+
+原始的CLI工具仍然可用：
+
+```bash
+# 开发模式
 npm run dev
-```
 
-### Build
-```bash
+# 构建
 npm run build
-```
 
-### Production
-```bash
+# 运行
 npm start
 ```
 
-## How to Use
+## 💾 数据库设计
 
-1. Run the CLI using `npm run dev`
-2. Type your messages in the input box at the bottom
-3. Press Enter to submit
-4. View your message history in the main area
-5. Type 'exit' or 'quit' to close the application
+### 核心表结构
+- `users` - 用户信息
+- `membership_plans` - 会员套餐
+- `user_memberships` - 用户会员记录
+- `payment_orders` - 支付订单
+- `translation_requests` - 翻译记录
+- `user_usage_stats` - 使用统计
 
-## Development
+## 🔧 API接口
 
-This project uses:
-- TypeScript for type safety
-- React + Ink for terminal UI
-- ESM modules for modern JavaScript
+### 认证相关
+- `POST /api/auth/register` - 用户注册
+- `POST /api/auth/login` - 用户登录
+- `GET /api/auth/profile` - 获取用户信息
+- `PUT /api/auth/profile` - 更新用户信息
 
-## License
+### 翻译功能
+- `POST /api/translate` - 执行翻译
+- `GET /api/translate/history` - 翻译历史
+- `GET /api/translate/stats` - 使用统计
+- `POST /api/translate/detect-language` - 语言检测
 
-MIT
+### 会员系统
+- `GET /api/membership/plans` - 获取套餐列表
+- `GET /api/membership/current` - 当前会员信息
+- `GET /api/membership/usage` - 使用情况
+
+### 支付系统
+- `POST /api/payment/orders` - 创建支付订单
+- `GET /api/payment/orders/:id` - 查询订单状态
+- `POST /api/payment/verify` - 验证支付结果
+- `POST /api/payment/webhook/zpay` - 支付回调
+
+## 🔐 安全特性
+
+- JWT身份认证
+- 密码加密存储
+- 请求速率限制
+- CORS跨域保护
+- SQL注入防护
+- XSS攻击防护
+- HTTPS强制重定向
+
+## 📊 监控和日志
+
+- 应用健康检查
+- 错误日志记录
+- 支付状态监控
+- API调用统计
+- 用户行为分析
+
+## 🛠️ 开发指南
+
+### 添加新功能
+1. 在对应的模块中添加代码
+2. 更新TypeScript类型定义
+3. 添加API路由和测试
+4. 更新前端界面
+5. 更新文档
+
+### 代码规范
+- 使用TypeScript进行类型检查
+- 遵循ESLint规则
+- 使用Prettier格式化代码
+- 编写单元测试
+- 提交前运行检查
+
+## 📝 更新日志
+
+### v0.5.0 (当前版本)
+- ✅ 完整的Web前端界面
+- ✅ 后端API服务
+- ✅ 用户认证和授权
+- ✅ 会员付费系统
+- ✅ Z-Pay支付集成
+- ✅ 翻译核心功能
+- ✅ Docker化部署
+- ✅ 生产环境配置
+
+### v0.4.0
+- 添加工具调用信息显示
+- 改进CLI界面体验
+
+### v0.3.0  
+- 添加文件读取工具
+- 添加URL获取工具
+- 支持多种输入类型
+
+### v0.2.0
+- 实现基础翻译功能
+- 添加AI SDK集成
+
+### v0.1.0
+- 初始CLI界面
+- React + Ink终端UI
+
+## 🤝 贡献指南
+
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 🙏 致谢
+
+- [Vue.js](https://vuejs.org/) - 渐进式JavaScript框架
+- [Element Plus](https://element-plus.org/) - Vue 3组件库
+- [Express](https://expressjs.com/) - Node.js Web框架
+- [OpenAI](https://openai.com/) - AI翻译服务
+- [Z-Pay](https://z-pay.cn/) - 支付服务提供商
+
+---
+
+如有问题或建议，请提交 [Issue](../../issues) 或联系开发团队。
